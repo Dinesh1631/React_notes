@@ -1,0 +1,95 @@
+React:
+->Used to build single page application.
+->React application is build by using components.
+->Those components are in hirerchical realtionship.
+->"Root component" is called main componenet.
+->All the remaing components connected to root or non-root components.
+->If a newly creted component is not connected to any other component react will not recognize it.
+->Root component is connected to "index.html".
+->when react application is created it will by default contains "Root component".
+->Except root component all other componet should be build by developers.
+->All components(extension is js.) should be part of src folder and must be created inside src folder,if created outside we get errors.
+->Upper-Camel-case "should" be followed while Nameing the component.
+->"App.js" is the root component.
+->Every component will return a(only one element) react element(Html element created by react).Some components may receive properties a input:
+->Types of ways used to write componests:
+           a)Class Component:In older version Where data storage is required to be stored.
+             ex:class welcome extends components{
+                 render(){
+                     return<h1>Hello ,{this.props.name}</h1>
+                 }
+           b)function Component:In older version Where data storage  is not required to be stored.
+               ex:function Welcome(props){
+                    return <h1>Hello,{props.name}</h1> --->React element.
+                  }
+->Functional components are more powerful and most widly being used.
+->Code in index.html(single main page of entire application)  should not be modified.The "Index.js" is the entry point to the react application.index.css used to write global styles ,is applicable to all global componenets.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+creating a react application steps:
+1)run npm install -g create-react-app
+2)npx create-react-app app-name(app-name should not contain the capital letters).
+3)npm:Node Package Manager ,npx:Node Package eXecute.
+
+Running the react appication:(npm start).
+1)When we run npm start command our react application is compiled by using "babel compiler".
+2)The compiled react app is taken by "web app tool" and pack the file similar files based on there extensions.(All html file together into a package so,and so)
+3)This packed version is called "React Build".
+4)This React build is placed into the web serever.(The web server is automatically installed with react installation).
+
+
+JSX:
+->The html we write inside a react elemet is called Java Script Xml.
+->It is template language we used to create react elements.
+->If you dynamically want to display a variable inside jsx simply place it in "{}".
+->The data can be changed over the duration(Dynamically) of the execution of the application.(This is not possible in html ,if we do it in html it will throw parsing errors).
+->If we want to write any javascript inside th jsx we should write it inside the "{}".
+->When trying to display a list of elements on DOM,then each child should have a "Unique key".
+->Comments in jsx ,it is "{/* Heading*/}".
+
+
+RENDERING:It means displaying the contents on the web page.
+
+BABEL:
+1)It takes our react application and convert the jsx code to javascript code,Because browser cannot understand jsx.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+STYLING THE COMPONENT:
+1)crete a .css file.
+2)import the css file to the required component (import "./App.css").
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------Component Nesting:
+1)One component can be nested inside another componenet.
+2)These components will have "Parent-child" Realtion.
+3)Name of the component should be same as name of the file.
+4)export default component_name; used export the component. 
+Steps:
+->create an component with .js file and .css file.
+->Export thay component using default exports componenet name.
+->import that component in required componenet.
+->using inside the imported component react element.
+6)component increase the resuablity.
+7)Parent send's the data to child using the "props".
+8)"props" represents an object.
+
+/*
+let data1 = {
+    "name":"Dinesh",
+    "image":"data:image/jpeg.
+  };
+ <One data ={data1}/>.
+
+function one(props){
+  console.log(props)
+  return(
+    <div className="div">
+       <h1 className="heading">{props.data.name}</h1>
+     <img src = {props.data.image} alt ="image" width ="200px" height="200px"></img>
+    </div>
+  )
+}
+<One data ={data1}/>.
+  Here props receive's a key-value pair: data:{name,image}.
+  props.data.image:Here props is key.
+
+*/
