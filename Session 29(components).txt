@@ -1,0 +1,117 @@
+->Except root component all other components are "feature componenets".
+->Components are reusable.
+->export default component_name.
+Props & state:
+->Props:Data received from parent to child.
+->State:Data of a particular componenet.
+      1)Every component has it's own state.
+      2)State can be any thing (like between finction_start and return stmt).
+      3)The value of things which change during the execution of the program.(ex let a =10 ---->after some exe then a=20).
+      4)A componenet may or may not have a state.     
+->Root componenet donot have any parent so,it will not have any props.
+
+EVENT HANDLING:
+->Everything in web application is event driven.
+->ex:clicking button ,press key,writing text,move cursor etc.
+->An event is happend ,there must be an event handler to handle the event.
+->Dealing with event in react js is easy when compared to the core javascript.
+ <button  onClick={test}>Click me</button>
+let test = ()=>{
+    console.log("Test function is called",a)
+   }
+->If we click the button on the dom the test function will bwe executed.
+->But we should pass only the function name in the onClick event ,so that when we click the button the test function will execute,
+insted if we call the function as'test()" in onClick,the function is automatically called ,while the component  is loading and 
+button will not work when we click on it. 
+->Here there are two case in this situtuion ,parameterized function ,non parametrized function
+A)For non parametrized version we can simply follow thge above described approch.
+<button  onClick={test}>Click me</button>
+let test = ()=>{
+    console.log("Test function is called",a)
+   }
+B)For parametrized approch we need to pass the argumnets in function like "test(10)" ,if if we irectly do that we will face the
+ problem we described in the above statement, to over come thos we make an twike to th calling machaniism which is "Function calling mechanism".
+<button  onClick={()=>test(10)}>Click me</button>
+let test = (a)=>{
+    console.log("Test function is called",a)
+   }
+->By doing tjis we can overcome the above described problem.
+
+
+CHANGING STATE OF COMPONENT:
+  //State:
+   let a =0;
+   let changeA = ()=>{
+    console.log("Test function is called",++a)
+   }
+  <h2>Value of a : {a}</h2>
+  <button  onClick={()=>changeA()}>Click me</button>
+
+->When we click on the button then the state of "A" in the changeA function is changing.
+->but the above has a problem that when a button is clicked the state change is appering on the console,but not on the Interface.
+->Whenever the state is changing it is not re-rendring on interface.
+->"Solution":Whenever the state is changed the "part of component"  should be re-rendered.
+->The tag h2 should be re rendred ,because when we click the button the ,the state of element ,which h2 is trying to display is changing.
+->To rerender only a specific part ,recat has given us a concept called "STATE-HOOK"
+->HOOK:It mean a function,these are hooked with the state of component.
+->These are introduced in react 16,before that we used write the class component. 
+------------------------syntax:[currentState,function to change current state] = useState(intiastate({},0,[]))--------------------------------------------------
+->CurrentState represent the intial state .
+->if we want to make any changes to currentState,we should do it inside the "change function only". 
+->To chage the state of the component ,we use "useState" hook.
+->All hooks are named exports.
+->The useState hook return only two elemets. 
+->When we use usestate ,only required part of the dom is re-render,which increase the efficency the react application.
+->Program to demostrate the event hadling user counter example.
+function Handle(){
+   //hook
+   //let a = 0;
+   let [counter,setCounter] = useState(0)//Variable "a" contains the intial value(currentState) which is "0".
+   //State:
+
+   let increaseA = ()=>{
+    setCounter(counter+1);
+   }
+
+   let decreaseA = ()=>{
+    setCounter(counter-1);
+   }
+
+   let AddRandom=(value)=>{
+    setCounter(counter+value)
+   }
+
+   return(
+    <div className="div1">
+        <h1>Counter Demo</h1>
+        <button  onClick={()=>increaseA()}>Increment</button>
+        <h1>Value of a : {counter}</h1>
+        <button  onClick={()=>decreaseA()}>Decrement</button>
+        <button  onClick={()=>AddRandom(100)}>Add 100</button>
+    </div>
+   )
+}
+->Program to demostrate the event hadling userData example.
+function User (){
+    //state:
+    let [user,setUser] = useState({name:"Dinesh",age:20,city:"Hyderabad"})
+    //function to change user info
+    let changeUserInfo = ()=>{
+        setUser({name:"Rahul"})
+    }
+    return(
+        <div>
+              <h1>Name : {user.name}</h1>
+              <h1>age : {user.age}</h1>
+              <h1>city : {user.city}</h1>
+              <button onClick={changeUserInfo}>change user Info</button>
+        </div>
+    )
+}
+
+->In the above program if we click on the change-user button the setUser function will override the existing object ,insted of replacing
+the name of the user in existing object ,it override and create entireliy new object ,it is not good,to overcome this we use the following steps:
+->Create the copy of the userObject by using "setUser({...user,nmae:"Bhanu"});
+->by using the above syntax of "...user" we spreaded the entrie userObject which is in current state and just modified the filed which we required.
+->By the above method ,we can just any of filed we required without distrubing other filed.
+->If try to modify the any object in useState,we should spread existing object and modify the object.
