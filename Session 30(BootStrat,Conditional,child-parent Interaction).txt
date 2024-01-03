@@ -1,0 +1,149 @@
+Agenda:
+1)Install Bootstrap and use images and icons.
+2)Conditional Rendering.(Test folder)
+3)Parent & Child Interaction.(parent-child Folder)
+4)Side Effects.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Agenda-1:Install Bootstrap and use images and icons.
+->BootStrap is used to style the react component.
+->It makes the Building process on react application faster.
+->To style the react application,we need to style the index.html page,because it is the only html page in our application.
+->To Apply style for entire appliction the "css" should be written inside the index.css file(Global file).
+->The .css file of each component can take care of styling that component,but index.css file styling can aplicable to many componenets.
+-------------------------Steps to install boot strap in React application.
+1)Goto react-BootStrap website.(In this every elememt is a component)
+2)click on get Start and follow the steps described in it.
+3)"npm install react-bootstrap bootstrap" we this command to install bootstrap.
+4)Here we installed to module they are "react-bootstrap","bootstrap".
+5)Whenerver a new module installed verify the log in package.json file.
+6)After the above process copy the following link "import 'bootstrap/dist/css/bootstrap.min.css'" paste it inside the "index.js"(On Top of It).
+
+-------------------------USING THE IMAGES IN APPLICATION:
+1)Do't try to  use images in internet by there links ,because if the site owner remove's the image,then our react application is unaware of it,
+and we will face issues while running the application.
+2)So,the good pratice is to downoad the image and use it.Every image should be present in the "src" folder only because they are being used by ,
+components present in the src folder.
+3)If want the image in our react application just import from the src image forlder and palce the imported image in src={img} tag. 
+4)We are importing beacuse,when web pack is buldling the packages,the web pack will identify all the import statements and create and
+dependency graph among them this will increase the loading speed of the images and increase the efficency of application.
+Process:
+   import messi from './Images/messi.jpg'
+   <img src={messi} alt="LOL"></img> this how we will work with the images in react application.
+
+----------------------USING THE ICONS IN REACT APPLICATIONS
+1)Goto react icons website.
+2)Use this command to install react icons "npm install react-icons".
+3)To use an icon goto the that website get icon as per your need,click in icon get the import stmt from it.
+4)Import the icon and use it as a component in react application.
+     Process:
+             import { MdSaveAlt } from "react-icons/md";
+              <button className = "btn btn-warning"> < MdSaveAlt/></button> this how we will work with the icons in react application.
+
+// import logo from './logo.svg';
+import './App.css';
+// import messi from './Images/messi.jpg'
+import { MdSaveAlt } from "react-icons/md";
+
+function App() {
+  
+  return (
+    <div className="main">
+     <h1> This is React App</h1>
+     {/* working with images in react */}
+     {/* <img src={messi} alt="LOL"></img> */}
+     {/* working with icons in react */}
+     <button className = "btn btn-warning">< MdSaveAlt/>SAVE</button>
+    </div>
+  );
+}
+
+export default App;
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------Agenda-2:CONDITIONAL RENDERING(Test Folder)
+->The ablicty to render thing's on virtual dom based on the condition.
+->{
+    condition===true?(<h1>This for true</h1>):(<h1>This is for false</h1>)
+  }
+->Changing the condition for two outcomes.
+
+import './Test.css'
+import {useState} from 'react'
+
+function Test (){
+    let [condition,setConition] = useState(true);
+    let changeConition = ()=>{
+        setConition(condition = !condition);
+    }
+    return (
+        <div>
+        <h1>This is conditional rendering</h1>
+        {  
+         condition===true?(<h1>Hello</h1>):(<h1>Good bye!!!</h1>)
+        }
+        <button className ="btn btn-warning"onClick = {changeConition}>{condition===true?<h6>say Good Bye!! </h6>: <h6>Say Hello</h6>}</button>
+        </div>
+    )
+}
+
+export default Test;
+
+ {/* condition rendering for case where when click on edit button name filed should change to input filed */}
+        {condition===true ? <h2  className='text-white'>{name}</h2> : <input type = "text" value={name}></input>}
+        <button onClick={changeConition}>{condition===true?<h6>Edit</h6>:<h6>Enter Name</h6>}</button>
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------PARENT CHILD INTERACTION:
+->Every react componet has a parent component,expet root component it is directly connected to index.html ,which is entry point to react application.
+->Here we see how child can send data to parent(At bit complicated)
+->For transfer of data both parent and child component should have states,so that they can expange data.
+->Data Transfer between parent and chlid is simple as fuck,but vise versa if not that easy.
+->Case 1 is easy beacause we have the instance of the child in parent,case 2 is not easy because we donot have the instance of parent in child.
+
+--------Child Parent Interaction:(Only parent new about child,but child do not know any information about the parent).------
+->A child cannot transfer data to parent without support of the parent.
+STEPS:
+1)To Overcome this the parent componet should create function  to receive data from the child.
+2)The parent should be supplied to child by parent ,because as child is unaware of parent how can it know about function present in parent.
+3)The parent shold share the function insatnce to child by using the props.
+4)The the child call the function and transfer the data from the child to parent.
+->To transfer data from child to parent event is mandatory.
+parent.js:
+import './Parent.css'
+import Child from '../Child/Child'
+import {useState} from 'react'
+function Parent(){
+    let parentData = "This data from Parent"
+    //To receive data from the child.
+    let[data,setData] = useState(" ")
+    let getDataFromChild = (data)=>{
+       setData(data);
+    }
+    let clearData = ()=>{
+        setData(" ");
+    }
+    return (
+        <div className='div'>
+           <h1>This is parent</h1>
+           <h1>Data Received from Child is : <span className="text-primary">{data}</span></h1>
+            <Child data={parentData}  getData={getDataFromChild}/> 
+            <button className = "btn btn-warning" onClick={clearData}>Cleare Data from child</button>
+        </div>
+    )
+}
+
+export default Parent
+
+child.js:
+import './Child.css'
+function Child(props){    //props=>{data:"" , getData:function()}
+    let childData = "This Data Child Data"
+    return(
+        <div>
+        <h1>This is Child</h1>
+        <h1>Data Received from Parent is : <span className="text-primary">{props.data}</span></h1>
+        <button className="btn btn-warning" onClick = {()=>props.getData(childData)}>Send Data To Parent</button>
+        </div>
+    )
+}
+
+export default Child
