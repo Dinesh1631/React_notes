@@ -1,0 +1,136 @@
+Agenda:                              H.W : Try to work with the requres api and display it on the Virtual dom.
+
+1)Side Effects.
+2)Forms.
+3)Form Validation.
+4)Creating local API.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                                                               BONUS:
+1)Whwen we are working with the the api's and the json file format is not understandable ,then simply copy the json data and paste it in a website call
+"Online json formatter." thewre it arrange the json data in a propper format.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+1)Side Effects:These sideEffects should only be written inside the "useEffect" only.
+->Used when react application,is trying to communicate with outside world(Like DataBase) the response in unpredictable ,this is called "Side Effects".
+->"Side Effects are actions which are performed with outside world,they are unpredictable".
+->Example:a)Making HTTP Request.(Server may crash).(****)
+          b)To Interact with browser API.(ex:document object)
+          c)Using unpredictable timing function.(setTimeOut(2 sec),setInterval()).The 2 sec is minimum time,it may take more than 2 sec's to complete operations.
+-> By using fetch function we can make http request.
+->"useEFFECT HOOK" is used deal with the side effects.This will not return any thing.
+           ex:useEffect(
+                        effect(function)
+                         dependencies array
+                       )
+->It performs actions,when a componenet is mounted for the "First Time".
+->When we try to print some thing on console in react Generally it will printed two time,beacuse in "Index.html" the "app" component is Wrapperd inside the
+"react.StrictMode".If we unwrap it ,it will run in the normal mode and console statement will be printed only once.
+-->****
+      a)useEffect hook executes when the component is loaded.
+      b)The effect will exe only once during when component is loading , if the second argument is an empty array.  
+      c)When the second argument(dependency array) is not passed the useEffect will exe for all state chages and also when component is loaded.
+      d)To specify for which state change the useEffect execute,we can mention those state variable in the dependency array.
+      e)Those state variables in dependency array are called "dependecies".
+->
+Example Program:
+import {useEffect, useState} from 'react';
+function Fetch(){
+    //useStates.
+    let[counter,setCounter] = useState(100);
+    let [userName ,setUserName] = useState('Dinesh');
+
+   //UseEffect
+   useEffect(()=>{
+    console.log("use effect called")
+   },[counter])
+ 
+   //counter modification.
+   let modifyCounter = ()=>{
+    setCounter(counter+1);
+  }
+
+  //userName Modification.
+  let modifyUser =()=>{
+    setUserName("Messi");
+  }
+
+//   let reSetUser =()=>{
+//     setUserName("Dinesh");
+//   }
+
+   return(
+    <div>
+        <h1>This is Fetch</h1>
+        <h1>Counter : {counter}</h1>
+        <button onClick={modifyCounter}>Increment</button>
+
+        <h1>User Name is : {userName}</h1>
+        <button onClick={modifyUser}>modifyUser</button>
+
+        {/* <button onClick={reSetUser}>reSetUser</button> */}
+    </div>
+   )
+}
+
+export default Fetch;
+
+Another good example to work with real time api:
+import {useEffect, useState} from 'react';
+function Fetch(){
+let[todos,setTodos] = useState([])
+
+    useEffect(()=>{
+        //Make http request.
+        fetch("https://jsonplaceholder.typicode.com/todos")
+        .then((res)=>res.json())
+        .then(todoData=>setTodos(todoData))
+        .catch((err)=>console.log(err))
+    },[])
+     console.log(todos)
+   return(
+    <div className='container'>
+        <h1>This is Fetch</h1>
+        {/* Create table of todos */}
+       
+         <table className='table'>
+         <thead>
+            <tr>
+                <td>Completed</td>
+                <td>Id</td>
+                <td>TODO</td>
+                <td>userId</td>
+            </tr>
+         </thead>
+         <tbody>
+            {
+                todos.map(todoObj=><tr key={todoObj.id}>
+                    <td>{String(todoObj.completed)}</td>
+                    <td>{todoObj.id}</td>
+                    <td>{todoObj.title}</td>
+                    <td>{todoObj.userId}</td>
+                </tr>)
+            }
+         </tbody>
+        </table>
+    </div>
+   )
+}
+
+export default Fetch;
+
+
+-Showing the todo data by using grid:
+ {/* Createing a grid cards for the do list
+       <div className= "row row-col-1 row-col-sm-2 row-col-md-3 row-col-lg-4">
+             {
+               todos.map(todoObj=><div className='col'>
+               <div className='card card-id'>
+               <h3>{todoObj.completed}</h3>
+               <h3>{todoObj.id}</h3>
+               <h3>{todoObj.userId}</h3>
+               <h3>{todoObj.title}</h3>
+               </div>
+               </div>
+               )
+             }
+       </div> */}
