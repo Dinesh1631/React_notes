@@ -1,0 +1,130 @@
+Agenda:
+1)Handling errors in HTTP request.
+2)Forms
+3)Form Submission & Validation.
+4)Ceating Local Api's.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ERRORS HANDLING(HTTP Request):
+->There are 2 types of errors:
+    a)Invalid URL
+    b)During resolving of error.
+a)Dealing With Invalid url :
+->The catch method will handle this.
+->The Error is shown on Console,it we should display it on virtual Dom.
+->steps:
+1)Invaild URL:
+   a)let[error,setError] = useState("");
+   b).catch((err)=>{
+            setError(err.message) })
+   c){error && <h1 className='text-danger'>{error}</h1>}
+
+2)During resolving of error:
+    a)let[error,setError] = useState("");
+   b).catch((err)=>{
+            setError(err.message) })
+   c){error && <h1 className='text-danger'>{error}</h1>}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+FORMS:
+Steps:
+1)Design the fom(HTML,CSS & BootStrap).
+2)Submit Form(JavaScript/React).
+3)Validate The form(JavaScript/React).
+
+1)Design the fom(HTML,CSS & BootStrap):
+               <div className="row ">
+                  <div className ="col-11 col-sm-8 col-md-6 mx-auto">
+                    <form>
+                        <input type="text" name ="username" id="username" placeholder="usename" className="form-control mb-3"/>
+                        <button type = "submit" className="btn btn-success">Submit</button>
+                    </form>
+                  </div>
+               </div>
+->Here the div with row as className ,will arrange the form objects line by line.
+->The di with col specification wuill the recat allpication how many columnns does our elemet should occupy on the virtual dom so that ,
+it can be responsive when deployed on the other devices of diffrent lentgh.
+->
+
+2)Submit Form(JavaScript/React):
+->We use reactHookForm for submission and valdation.
+REACT HOOK FORM:
+->npm install react-hook-form
+->import {userForm ,SubmitHandler} from "react-hook-form";
+->"useForm" is used to handle the user registration process.
+->SubmitHandler is used to handle the user validation.
+->The userForm method ,it will return an object.The object will contain the following:
+   {register,handleSubmit,formState:{errors}} = useForm()
+->we should register the input fileld to the useForm by using the "register function".
+-><input type="text" name ="username" id="username" placeholder="usename" className="form-control mb-3" {...register("username")}/>
+->"{...register("username")}" by using this we registered the username.
+->To handle the form submission we will call handleSubmit method  in the form tag.
+        ex; <form onSubmit={handleSubmit(submitForm)}
+->By dong this when the form is submitted the submit function  is automatically handled by the useForm()(fFunction).
+DISADVANTAGES:
+->When we use the third party libraries to handle the these submissions and validation ,the application will grow
+which makes the application slow.
+->If mentioned we should user the reacgt for the form submission and validation with out the help of any third party app.
+		***********************  ClassNames for Diffrent tags:  ********************
+					1)Text ,date = "form-control".
+                                          ex:<input type="text" 
+                                           name ="username" 
+                                           id="username" 
+                                           placeholder="usename" 
+                                           className="form-control mb-3" 
+                                           {...register("username")}/>
+
+					2)Radio buttons = "from-check-input"
+                                            <div className="form-check">
+                                           {/* Male */}
+                                              <input type ="radio" className="form-check-input mb-3" id ="male" value="Male" {...register("Gender")}></input>
+                                              <label htmlFor='male' className="from-check-label  mb-3">Male</label>   
+                                           </div>
+                                           <div className="form-check">
+                                              <input type ="radio" className="form-check-input mb-3" id ="Female"  value="Female" {...register("Gender")}></input>
+                                              <label htmlFor='Female' className="from-check-label  mb-3">Female</label>
+                                            </div>
+
+					3)Labels = "from-check-label"
+
+					4)Select = "form-select".
+                                         <select className='form-select mb-3' {...register("State")}>
+                                         <option value="DEFAULT">Choose a option</option>
+                                         <option value="Telengana">Telengana</option>
+                                         <option value="Andhra">Andhra Pradesh</option>
+                                         <option value="Tamil Nadu">Tamil Nadu</option>
+                                         </select>
+
+                                        5)Textarea ="form-select"
+->The intentition of form submission is to store the data in  the backend(database) so that it can be used in the future.
+             ex:The Registration of gmail.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------STROING DATA IN LOCAL API:
+->As of now we donot have any knowlwdge of the backend ,we will create a "local api" ,to store our data.
+Steps:To create local api.
+1)We need a module called "json-server":  "npm install -g json-server".(-g stands for golbal installation.)
+2)The json--server helps to create local api,which can store data locally in a perment sever.
+3)First we need to start our json server with the command "json-server --watch "jsonfilename" --port=4000;
+4)Here the port is assigned 4000 because the react application is running on 3000,and two servers cannot run on same server.
+5)When we run the command in the step 3 ,and "empty" json file is create in the react application which will store our data locally ,
+so that we can use it in the future.
+6)We need to make http request to work with the database. 
+    ->For every item we add in database ,the json sever will create a unique it,so tha it can be diffrenciated from others.
+7)"  We use "axios" to make it simple to make the http request. "_.Best to use when making http request ,because it simple and easy.
+ STEPS:
+       ->npm install axios. 
+       a)Make http post request to store data in database.
+         let submitForm=(userObj)=>{
+        //Make http get request to get data form database.
+        fetch("url").then().then().catch();
+        //Make http post request to store data in database.
+        fetch("url",{}).then().then().catch();
+        fetch("http://localhost:4000/users",{
+            method:"POST",
+            headers:{
+                "Content-Type": "application/json",
+              },
+            body:JSON.stringify(userObj)
+        })
+        .then(res=>res.json())
+        .then(ans=>console.log(ans))
+        .catch(err=>console.log(err));
+     }
