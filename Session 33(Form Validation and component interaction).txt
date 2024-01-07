@@ -1,0 +1,55 @@
+Form Validation:
+->To verify wether the submitted object is valid to store in db or not.
+->To avoid the unnessary data going into the database.
+->Validation rules are:
+   a)required:To make the filed required,so that empty submission of that field is not required.
+   b)min:Used to represent min value that can be entered in the given filed.
+   c)max:Used to represent max value that can be entered in the given filed.
+   d)minLength:Used to represent min length of string that can be entered in the given filed.
+   e)maxLength:Used to represent max length of string that can be entered in the given filed.
+   f)Pattern:Used define the "regularExpression" so that the string entered in give filed is valid or not (ex:password)
+->How to apply validation rules to the files:
+steps:
+1)Goto register function and take an object as second parameter and give validation rules.
+      ex:  {...register("username" , {required:true} )}
+      ->As the required is is set as true,when we try to submit the empty form the form will not submitted.
+2)Display the validation errors:
+      ->Composition of errors object:
+         errors :{"username" :{
+                               type:"" } }
+         ->Here the user name is the "name" of "text fileld" we have given in our form.
+         ->So it acts as  key to another object in the error object.
+     ->We use the formState:{error} property which is provided in the useForm(). 
+      { errors.username?.type ==="required"&& (<h6 className='text-danger'>* username is required</h6>)}
+     ->In the above step 1 we kept required property as true ,which means when we try to submit and empty user name 
+       the "type" proprty in the error's object will display "required".
+     ->In step 2 we are using conditional rendering to check wether errors.username?.type==="required" it means,that the user is trying to submit
+       an empty form fileld which is not exceptable ,so we are dispalying the meassage"username required on the screen." 
+     ->Here we user "?" infront of the username beacuse during the compilation react try to verify the code,but in intial step the "errors object"
+       is empty ,which do not have any key username ,so it will throw a type error,to avoid it we use "?" ,to make it as an optional filels,which means 
+       check the fileld only when it available atherewise leave it. 
+     ->When we enter an valid data ,at that time also the "errors" object will be empty.
+     ex:Code:
+                   {/* UserName */}
+                        <input type="text" 
+                        name ="username" 
+                        id="username" 
+                        placeholder="username" 
+                        className="form-control mb-3" 
+                        {...register("username" , {required:true })}
+                        />
+                    {/* Username validation error maessage dispaly */}
+                       { errors.username?.type ==="required"&& (<h6 className='text-danger'>* username is required</h6>)}
+
+->The above is to verify and validate the user data.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                                                          ADVANCED TOPICS:
+1)Component Interactions.
+2)Lifting state up:When sibling's or any non parent components want to interact we have "lift the state up" to a level both the components who want to interact
+should have a common parent.
+3)Context API.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------1)Component Interactions:(Is is demonstrted by using todo app)
+->The components need to interact with each other,for the proper working of the application.
+->TODO APP:
+->The Main useState is created in the root componenet and passed to all other compnents ,they can all interact with it at the same time.
